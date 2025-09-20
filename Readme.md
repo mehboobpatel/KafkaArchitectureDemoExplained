@@ -148,4 +148,4 @@ withoutkafka/
 
 ## Summary
 
-Kafka is a powerful tool for building scalable, reliable, and real-time data pipelines. This project provides hands-on examples of how to produce and consume messages, with clear explanations of the core concepts and architecture. Whether you're new to Kafka or looking to deepen your understanding, this repository is a practical starting point.
+Kafka is a powerful tool for building scalable, reliable, and real-time data pipelines. This project provides hands-on examples of how to produce and consume messages, with clear explanations of the core concepts and architecture. Whether you're new to Kafka or looking to deepen your understanding, this repository is  practical starting point.

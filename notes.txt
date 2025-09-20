@@ -1,0 +1,45 @@
+key=b"user-123"                 # already bytes
+key="user-123".encode("utf-8")  # convert string to bytes
+
+## Key Value in Partitions
+🔹 What happens under the hood
+
+Kafka’s producer library takes your key.
+
+Runs a hash function on it.
+
+Does (hash(key) % number_of_partitions) → decides the partition.
+
+Sends the record there.
+
+You don’t need to create partitions manually for keys — as long as the topic has more than 1 partition, keys will get mapped.
+
+If the topic has only 1 partition, then key or no key doesn’t matter (everything goes to that one partition).
+
+
+In the Java Kafka client (the standard one), Kafka uses Murmur2 hash (not Python’s hash()).
+
+
+
+hash_value = murmur2("user-123")    # e.g., produces 1123456789
+partition = hash_value % 3
+If:
+
+murmur2("user-123") = 1123456789
+then → 1123456789 % 3 = 0 → Partition 0.
+
+If you send "user-123" again → same Murmur2 hash → still Partition 0.
+
+But "user-456" might hash to something like 987654321, so → 987654321 % 3 = 2.
+
+4️⃣ Why not Python’s hash()?
+
+Because Python’s hash() is randomized per session (for security reasons, Python seeds its hash differently each process).
+👉 That means "user-123" could map to different partitions across runs if Python’s hash() were used.
+
+That’s why Kafka fixed on Murmur2 — consistent across JVM, Python, Go, C++, etc.
+
+Consumer in same group cannit read same partition
+Consumer in different group can read same partition
+
+Each consumer maintains the last processed message , in the event of crash it helps
